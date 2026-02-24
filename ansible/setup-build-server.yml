@@ -1,0 +1,11 @@
+---
+- hosts: all
+  tasks:
+    - name: Setup the build server
+      include_roles:
+        - install-java
+        - install-maven
+        - install-docker
+        - setup-build-user
+        - configure-jenkins-agent
+        - setup-monitoring
