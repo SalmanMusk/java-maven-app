@@ -1,0 +1,44 @@
+---
+- name: Setup Java Maven Application Build Server
+  hosts: all
+  become: yes
+  roles:
+    - java
+    - maven
+    - jenkins
+
+# Roles Directory Structure
+
+# java/tasks/main.yml
+- name: Install Java
+  apt:
+    name: openjdk-11-jdk
+    state: present
+
+# maven/tasks/main.yml
+- name: Install Maven
+  apt:
+    name: maven
+    state: present
+
+# jenkins/tasks/main.yml
+- name: Add Jenkins key
+  apt_key:
+    url: https://get.jenkins.io/debian/jenkins.io.key
+    state: present
+
+- name: Add Jenkins repository
+  apt_repository:
+    repo: deb http://pkg.jenkins.io/debian-stable binary/
+
+- name: Install Jenkins
+  apt:
+    name: jenkins
+    state: present
+
+- name: Start Jenkins
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+
